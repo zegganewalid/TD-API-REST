@@ -1,0 +1,15 @@
+services:
+  init:
+    build: { context: ., dockerfile: Dockerfile.init }
+    volumes: ["data:/data"]
+
+  api:
+    build: { context: ., dockerfile: Dockerfile.api }
+    ports: ["3000:3000"]
+    volumes: ["data:/data"]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
+volumes:
+  data:
